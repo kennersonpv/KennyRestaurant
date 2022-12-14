@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Kenny.Services.ProductAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kenny.Services.ProductAPI.DbContexts
 {
@@ -6,7 +7,8 @@ namespace Kenny.Services.ProductAPI.DbContexts
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
         }
+
+        public DbSet<Product> Products { get; set; }
     }
 }
