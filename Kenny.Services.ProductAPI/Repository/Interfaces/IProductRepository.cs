@@ -1,8 +1,8 @@
 ﻿using Kenny.Services.ProductAPI.Models.Dto;
 
-namespace Kenny.Services.ProductAPI.Repository
+namespace Kenny.Services.ProductAPI.Repository.Interfaces
 {
-    public interface IProductsRepository
+    public interface IProductRepository
     {
         Task<IEnumerable<ProductDto>> GetProducts();
         Task<ProductDto> GetProductById(int productId);
