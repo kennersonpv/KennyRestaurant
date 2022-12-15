@@ -1,3 +1,5 @@
+using AutoMapper;
+using Kenny.Services.ProductAPI;
 using Kenny.Services.ProductAPI.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
