@@ -38,8 +38,56 @@ namespace Kenny.Services.ProductAPI.Controllers
         {
             try
             {
-                ProductDto productDto = await _productRepository.GetProductById(id);
-                _response.Result = productDto;
+                var result = await _productRepository.GetProductById(id);
+                _response.Result = result;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpPost]
+        public async Task<object> Post([FromBody] ProductDto product)
+        {
+            try
+            {
+                var result = await _productRepository.CreateUpdateProduct(product);
+                _response.Result = result;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpPut]
+        public async Task<object> Put([FromBody] ProductDto productDto)
+        {
+            try
+            {
+                var result = await _productRepository.CreateUpdateProduct(productDto);
+                _response.Result = result;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpDelete]
+        public async Task<object> Delete(int id)
+        {
+            try
+            {
+                var isSuccess = await _productRepository.DeleteProduct(id);
+                _response.Result = isSuccess;
             }
             catch (Exception ex)
             {
