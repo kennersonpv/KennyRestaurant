@@ -1,6 +1,8 @@
 using AutoMapper;
 using Kenny.Services.ProductAPI;
 using Kenny.Services.ProductAPI.DbContexts;
+using Kenny.Services.ProductAPI.Repository;
+using Kenny.Services.ProductAPI.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+//Add Dependency Injection
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
