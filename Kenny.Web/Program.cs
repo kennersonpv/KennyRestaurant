@@ -1,4 +1,13 @@
+using Kenny.Web;
+using Kenny.Web.Services.IServices;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+//Dependency Injection
+builder.Services.AddHttpClient<IProductService, IProductService>();
+SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
+builder.Services.AddScoped<IProductService, IProductService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
