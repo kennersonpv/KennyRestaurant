@@ -6,7 +6,7 @@ namespace Kenny.Web.Models
     {
         public ApiType ApiType { get; set; }
         public string Url { get; set; }
-        public string Data { get; set; }
+        public object Data { get; set; }
         public string AccessToken { get; set; }
     }
 }
