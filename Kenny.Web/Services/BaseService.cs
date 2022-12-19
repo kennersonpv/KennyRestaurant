@@ -27,7 +27,7 @@ namespace Kenny.Web.Services
                 HttpRequestMessage message = new HttpRequestMessage();
                 //Can be
                 //message.Headers.Add("Content-Type", "application/json");
-                message.Headers.Add("Content-Type", "application/json");
+                message.Headers.Add("Accept", "application/json");
                 message.RequestUri = new Uri(apiRequest.Url);
 
                 if(apiRequest.Data != null)
