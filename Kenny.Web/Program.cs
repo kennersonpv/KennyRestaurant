@@ -3,7 +3,7 @@ using Kenny.Web.Services;
 using Kenny.Web.Services.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 //Dependency Injection
 builder.Services.AddHttpClient<IProductService, ProductService>();
