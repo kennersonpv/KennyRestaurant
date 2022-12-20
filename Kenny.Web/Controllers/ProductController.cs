@@ -25,7 +25,9 @@ namespace Kenny.Web.Controllers
             return View(productList);
         }
 
-		public async Task<IActionResult> ProductCreate()
-		{
-		}
+        public async Task<IActionResult> ProductCreate()
+        {
+            return View();
+        }
+    }
 }
