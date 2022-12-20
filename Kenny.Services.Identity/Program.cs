@@ -1,7 +1,33 @@
+using Kenny.Services.Identity;
+using Kenny.Services.Identity.DbContexts;
+using Kenny.Services.Identity.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+var identityBuilder = builder.Services.AddIdentityServer(options =>
+{
+	options.Events.RaiseErrorEvents = true;
+	options.Events.RaiseInformationEvents = true;
+	options.Events.RaiseFailureEvents = true;
+	options.Events.RaiseSuccessEvents = true;
+	options.EmitStaticAudienceClaim = true;
+
+}).AddInMemoryIdentityResources(SD.IdentityResources)
+.AddInMemoryApiScopes(SD.ApiScopes)
+.AddInMemoryClients(SD.Clients)
+.AddAspNetIdentity<ApplicationUser>();
+
+identityBuilder.AddDeveloperSigningCredential();
+
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
@@ -17,6 +43,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseIdentityServer();
 
 app.UseAuthorization();
 
