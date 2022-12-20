@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace Kenny.Services.Identity
 {
@@ -19,7 +20,7 @@ namespace Kenny.Services.Identity
 		public static IEnumerable<ApiScope> ApiScopes =>
 			new List<ApiScope>
 			{
-				new ApiScope("KennyAdmin", "Kenny Server"),
+				new ApiScope("kenny", "Kenny Server"),
 				new ApiScope(name: "read", displayName:"Read data"),
 				new ApiScope(name: "write", displayName:"Write data"),
 				new ApiScope(name: "delete", displayName:"Delete data"),
@@ -34,6 +35,21 @@ namespace Kenny.Services.Identity
 					ClientSecrets={new Secret("secret".Sha256())},
 					AllowedGrantTypes = GrantTypes.ClientCredentials,
 					AllowedScopes={"read", "write", "profile"}
+				},
+				new Client
+				{
+					ClientId="kenny",
+					ClientSecrets={new Secret("secret".Sha256())},
+					AllowedGrantTypes = GrantTypes.Code,
+					RedirectUris={ "https://localhost:44360/signin-oidc" },
+					PostLogoutRedirectUris={ "https://localhost:44360/signout-callback-oidc" },
+					AllowedScopes= new List<string>
+					{
+					IdentityServerConstants.StandardScopes.OpenId,
+					IdentityServerConstants.StandardScopes.Profile,
+					IdentityServerConstants.StandardScopes.Email,
+					"kenny"
+					}
 				}
 			};
 	}
