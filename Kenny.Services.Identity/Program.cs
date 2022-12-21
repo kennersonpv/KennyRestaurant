@@ -1,9 +1,10 @@
 using Kenny.Services.Identity;
 using Kenny.Services.Identity.DbContexts;
+using Kenny.Services.Identity.Initializer;
+using Kenny.Services.Identity.Initializer.Interfaces;
 using Kenny.Services.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,12 +25,15 @@ var identityBuilder = builder.Services.AddIdentityServer(options =>
 .AddInMemoryClients(SD.Clients)
 .AddAspNetIdentity<ApplicationUser>();
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
 identityBuilder.AddDeveloperSigningCredential();
 
 builder.Services.AddControllersWithViews();
 
-
 var app = builder.Build();
+var scope = app.Services.CreateScope();
+IDbInitializer dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -46,7 +50,7 @@ app.UseRouting();
 app.UseIdentityServer();
 
 app.UseAuthorization();
-
+dbInitializer.Initialize();
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
