@@ -1,5 +1,6 @@
 ﻿using Kenny.Services.ProductAPI.Models.Dto;
 using Kenny.Services.ProductAPI.Repository.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kenny.Services.ProductAPI.Controllers
@@ -17,7 +18,8 @@ namespace Kenny.Services.ProductAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<object> Get()
+		[Authorize]
+		public async Task<object> Get()
         {
             try
             {
@@ -33,7 +35,8 @@ namespace Kenny.Services.ProductAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+		[Authorize]
+		[Route("{id}")]
         public async Task<object> Get(int id)
         {
             try
@@ -50,7 +53,8 @@ namespace Kenny.Services.ProductAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Post([FromBody] ProductDto product)
+		[Authorize]
+		public async Task<object> Post([FromBody] ProductDto product)
         {
             try
             {
@@ -66,7 +70,8 @@ namespace Kenny.Services.ProductAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<object> Put([FromBody] ProductDto productDto)
+		[Authorize]
+		public async Task<object> Put([FromBody] ProductDto productDto)
         {
             try
             {
@@ -82,7 +87,8 @@ namespace Kenny.Services.ProductAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+		[Authorize(Roles = SD.Admin)]
+		[Route("{id}")]
         public async Task<object> Delete(int id)
         {
             try
