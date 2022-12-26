@@ -56,7 +56,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAuthentication("Bearer")
 	.AddJwtBearer("Bearer", options =>
 	{
-		options.Authority = builder.Configuration["AuthorizationURL"];
+		options.Authority = builder.Configuration["ServiceUrls:IdentityAPI"];
 		options.TokenValidationParameters = new TokenValidationParameters
 		{
 			ValidateAudience = false
