@@ -41,8 +41,8 @@ namespace Kenny.Services.Identity
 					ClientId="kenny",
 					ClientSecrets={new Secret("secret".Sha256())},
 					AllowedGrantTypes = GrantTypes.Code,
-					RedirectUris={ "https://localhost:44360/signin-oidc" },
-					PostLogoutRedirectUris={ "https://localhost:44360/signout-callback-oidc" },
+					RedirectUris={ "https://localhost:7294/signin-oidc" },
+					PostLogoutRedirectUris={ "https://localhost:7294/signout-callback-oidc" },
 					AllowedScopes= new List<string>
 					{
 					IdentityServerConstants.StandardScopes.OpenId,
