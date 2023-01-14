@@ -3,6 +3,7 @@ using Kenny.Web.Models.Dto;
 using Kenny.Web.Services.IServices;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace Kenny.Web.Services
@@ -29,10 +30,16 @@ namespace Kenny.Web.Services
                 //message.Headers.Add("Content-Type", "application/json");
                 message.Headers.Add("Accept", "application/json");
                 message.RequestUri = new Uri(apiRequest.Url);
+                client.DefaultRequestHeaders.Clear();
 
-                if(apiRequest.Data != null)
+                if (apiRequest.Data != null)
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data), Encoding.UTF8, "application/json");
+                }
+
+                if (!string.IsNullOrEmpty(apiRequest.AccessToken))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.AccessToken);
                 }
 
                 HttpResponseMessage httpResponse = null;
@@ -52,7 +59,6 @@ namespace Kenny.Web.Services
                         break;
                 }
 
-                client.DefaultRequestHeaders.Clear();
                 httpResponse = await client.SendAsync(message);
 
                 var apiContent = await httpResponse.Content.ReadAsStringAsync();
