@@ -1,8 +1,10 @@
+using Duende.IdentityServer.Services;
 using Kenny.Services.Identity;
 using Kenny.Services.Identity.DbContexts;
 using Kenny.Services.Identity.Initializer;
 using Kenny.Services.Identity.Initializer.Interfaces;
 using Kenny.Services.Identity.Models;
+using Kenny.Services.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +28,7 @@ var identityBuilder = builder.Services.AddIdentityServer(options =>
 .AddAspNetIdentity<ApplicationUser>();
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 identityBuilder.AddDeveloperSigningCredential();
 
