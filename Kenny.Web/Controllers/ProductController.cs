@@ -1,8 +1,10 @@
 ﻿using Kenny.Web.Models.Dto;
 using Kenny.Web.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace Kenny.Web.Controllers
 {
@@ -77,7 +79,8 @@ namespace Kenny.Web.Controllers
 			return View(product);
 		}
 
-		public async Task<IActionResult> ProductDelete(int productId)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ProductDelete(int productId)
 		{
             var accessToken = await HttpContext.GetTokenAsync("access_token");
             var response = await _productService.GetProductByIdAsync<ResponseDto>(productId, accessToken);
@@ -91,7 +94,8 @@ namespace Kenny.Web.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
 		public async Task<IActionResult> ProductDelete(ProductDto product)
 		{
 			if (ModelState.IsValid)
