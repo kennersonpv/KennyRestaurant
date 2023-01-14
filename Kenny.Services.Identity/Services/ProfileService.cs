@@ -56,6 +56,8 @@ namespace Kenny.Services.Identity.Services
                     }
                 }
             }
+
+            context.IssuedClaims = claimsList;
         }
 
         public async Task IsActiveAsync(IsActiveContext context)
