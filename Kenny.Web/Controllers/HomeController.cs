@@ -31,7 +31,19 @@ namespace Kenny.Web.Controllers
             return View(productList);
         }
 
-        public IActionResult Privacy()
+        [Authorize]
+		public async Task<IActionResult> Details(int productId)
+		{
+			var productDtoModel = new ProductDto();
+			var response = await _productService.GetProductByIdAsync<ResponseDto>(productId, "");
+			if (response != null && response.IsSuccess)
+			{
+				productDtoModel = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
+			}
+			return View(productDtoModel);
+		}
+
+		public IActionResult Privacy()
         {
             return View();
         }
