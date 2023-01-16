@@ -21,7 +21,18 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
 
         public async Task<bool> ClearCartAsync(string userId)
         {
-            throw new NotImplementedException();
+            var cartHeaderFromDb = await _db.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId);
+            if(cartHeaderFromDb != null)
+            {
+                _db.CartDetails.RemoveRange(_db.CartDetails.Where(u => u.CartHeaderId == cartHeaderFromDb.CartHeaderId));
+                _db.CartHeaders.Remove(cartHeaderFromDb);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<CartDto> CreateUpdateCartAsync(CartDto cartDto)
@@ -69,7 +80,7 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
                 }
             }
 
-            var cart = _mapper.Map<Cart>(cartDto);
+            return _mapper.Map<CartDto>(cartDto);
         }
 
         public async Task<CartDto> GetCartByUserIdAsync(string userId)
