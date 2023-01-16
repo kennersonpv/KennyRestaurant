@@ -22,9 +22,9 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
         public async Task<bool> ClearCartAsync(string userId)
         {
             var cartHeaderFromDb = await _db.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId);
-            if(cartHeaderFromDb != null)
+            if (cartHeaderFromDb != null)
             {
-                _db.CartDetails.RemoveRange(_db.CartDetails.Where(u => u.CartHeaderId == cartHeaderFromDb.CartHeaderId));
+                _db.CartDetails.RemoveRange(_db.CartDetails.Where(u => u.CartHeaderId.Equals(cartHeaderFromDb.CartHeaderId)));
                 _db.CartHeaders.Remove(cartHeaderFromDb);
                 await _db.SaveChangesAsync();
                 return true;
@@ -39,7 +39,7 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
         {
             var cart = _mapper.Map<Cart>(cartDto);
 
-            var productInDb = await _db.Products.FirstOrDefaultAsync(p => p.ProductId == cartDto.CartDetails.FirstOrDefault().ProductId);
+            var productInDb = await _db.Products.FirstOrDefaultAsync(p => p.ProductId.Equals(cartDto.CartDetails.FirstOrDefault().ProductId));
 
             if (productInDb == null)
             {
@@ -47,9 +47,9 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
                 await _db.SaveChangesAsync();
             }
 
-            var cartHeaderFromDb = await _db.CartHeaders.AsNoTracking().FirstOrDefaultAsync(c => c.UserId == cart.CartHeader.UserId);
+            var cartHeaderFromDb = await _db.CartHeaders.AsNoTracking().FirstOrDefaultAsync(c => c.UserId.Equals(cart.CartHeader.UserId));
 
-            if(cartHeaderFromDb == null)
+            if (cartHeaderFromDb == null)
             {
                 _db.CartHeaders.Add(cart.CartHeader);
                 await _db.SaveChangesAsync();
@@ -90,14 +90,32 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
                 CartHeader = await _db.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId)
             };
 
-            cart.CartDetails = _db.CartDetails.Where(c => c.CartHeaderId == cart.CartHeader.CartHeaderId).Include(c => c.Product);
+            cart.CartDetails = _db.CartDetails.Where(c => c.CartHeaderId.Equals(cart.CartHeader.CartHeaderId)).Include(c => c.Product);
 
             return _mapper.Map<CartDto>(cart);
         }
 
         public async Task<bool> RemoveFromCartAsync(int cartDetailsId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var cartDetails = await _db.CartDetails.FirstOrDefaultAsync(c => c.CartDetailsId == cartDetailsId);
+
+                int totalCountOfCartItems = _db.CartDetails.Where(c => c.CartHeaderId.Equals(cartDetails.CartHeaderId)).Count();
+
+                _db.CartDetails.Remove(cartDetails);
+                if (totalCountOfCartItems == 1)
+                {
+                    var cartHeaderToRemove = await _db.CartHeaders.FirstOrDefaultAsync(c => c.CartHeaderId.Equals(cartDetails.CartHeaderId));
+                    _db.CartHeaders.Remove(cartHeaderToRemove);
+                }
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
     }
 }
