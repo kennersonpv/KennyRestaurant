@@ -1,6 +1,8 @@
 using AutoMapper;
 using Kenny.Services.ShoppingCartAPI;
 using Kenny.Services.ShoppingCartAPI.DbContexts;
+using Kenny.Services.ShoppingCartAPI.Repository;
+using Kenny.Services.ShoppingCartAPI.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -70,6 +72,9 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("scope", "kenny");
     });
 });
+
+//Add Dependency Injection
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 var app = builder.Build();
 
