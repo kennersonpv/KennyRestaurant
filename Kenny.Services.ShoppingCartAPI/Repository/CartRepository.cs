@@ -85,7 +85,14 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
 
         public async Task<CartDto> GetCartByUserIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            var cart = new Cart()
+            {
+                CartHeader = await _db.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId)
+            };
+
+            cart.CartDetails = _db.CartDetails.Where(c => c.CartHeaderId == cart.CartHeader.CartHeaderId).Include(c => c.Product);
+
+            return _mapper.Map<CartDto>(cart);
         }
 
         public async Task<bool> RemoveFromCartAsync(int cartDetailsId)
