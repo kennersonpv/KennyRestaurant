@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kenny.Services.ShoppingCartAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230116221515_AddProductAndCartModels")]
+    [Migration("20230116225212_AddProductAndCartModels")]
     partial class AddProductAndCartModels
     {
         /// <inheritdoc />
@@ -66,7 +66,7 @@ namespace Kenny.Services.ShoppingCartAPI.Migrations
 
                     b.HasKey("CartHeaderId");
 
-                    b.ToTable("CartHeader");
+                    b.ToTable("CartHeaders");
                 });
 
             modelBuilder.Entity("Kenny.Services.ShoppingCartAPI.Models.Product", b =>

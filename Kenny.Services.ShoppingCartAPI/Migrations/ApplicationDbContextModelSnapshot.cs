@@ -63,7 +63,7 @@ namespace Kenny.Services.ShoppingCartAPI.Migrations
 
                     b.HasKey("CartHeaderId");
 
-                    b.ToTable("CartHeader");
+                    b.ToTable("CartHeaders");
                 });
 
             modelBuilder.Entity("Kenny.Services.ShoppingCartAPI.Models.Product", b =>

@@ -11,7 +11,7 @@ namespace Kenny.Services.ShoppingCartAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CartHeader",
+                name: "CartHeaders",
                 columns: table => new
                 {
                     CartHeaderId = table.Column<int>(type: "int", nullable: false)
@@ -21,7 +21,7 @@ namespace Kenny.Services.ShoppingCartAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartHeader", x => x.CartHeaderId);
+                    table.PrimaryKey("PK_CartHeaders", x => x.CartHeaderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -54,9 +54,9 @@ namespace Kenny.Services.ShoppingCartAPI.Migrations
                 {
                     table.PrimaryKey("PK_CartDetails", x => x.CartDetailsId);
                     table.ForeignKey(
-                        name: "FK_CartDetails_CartHeader_CartHeaderId",
+                        name: "FK_CartDetails_CartHeaders_CartHeaderId",
                         column: x => x.CartHeaderId,
-                        principalTable: "CartHeader",
+                        principalTable: "CartHeaders",
                         principalColumn: "CartHeaderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -85,7 +85,7 @@ namespace Kenny.Services.ShoppingCartAPI.Migrations
                 name: "CartDetails");
 
             migrationBuilder.DropTable(
-                name: "CartHeader");
+                name: "CartHeaders");
 
             migrationBuilder.DropTable(
                 name: "Products");
