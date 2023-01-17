@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Kenny.Services.CouponAPI.Models;
+using Kenny.Services.CouponAPI.Models.Dto;
 
 namespace Kenny.Services.CouponAPI
 {
@@ -8,6 +10,7 @@ namespace Kenny.Services.CouponAPI
 		{
 			var mappingConfig = new MapperConfiguration(config =>
 			{
+				config.CreateMap<CouponDto, Coupon>().ReverseMap();
 			});
 
 			return mappingConfig;
