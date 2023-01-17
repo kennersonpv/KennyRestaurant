@@ -22,9 +22,34 @@ namespace Kenny.Web.Controllers
             return View(await LoadCartDtoBasedOnLoggedInUserAsync());
         }
 
-		public async Task<IActionResult> ApplyCoupon()
+        [HttpPost]
+        [ActionName("ApplyCoupon")]
+		public async Task<IActionResult> ApplyCoupon(CartDto cart)
 		{
-			return View(await LoadCartDtoBasedOnLoggedInUserAsync());
+			var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+			var accessToken = await HttpContext.GetTokenAsync("access_token");
+			var response = await _cartService.ApplyCouponAsync<ResponseDto>(cart, accessToken);
+
+			if (response != null && response.IsSuccess)
+			{
+				return RedirectToAction(nameof(CartIndex));
+			}
+            return View();
+		}
+
+		[HttpPost]
+		[ActionName("RemoveCoupon")]
+		public async Task<IActionResult> RemoveCoupon(CartDto cart)
+		{
+			var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+			var accessToken = await HttpContext.GetTokenAsync("access_token");
+			var response = await _cartService.RemoveCouponAsync<ResponseDto>(cart.CartHeader.UserId, accessToken);
+
+			if (response != null && response.IsSuccess)
+			{
+				return RedirectToAction(nameof(CartIndex));
+			}
+			return View();
 		}
 
 		public async Task<IActionResult> Remove(int cartDetailsId)
@@ -32,7 +57,6 @@ namespace Kenny.Web.Controllers
 			var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
 			var accessToken = await HttpContext.GetTokenAsync("access_token");
 			var response = await _cartService.RemoveFromCartAsync<ResponseDto>(cartDetailsId, accessToken);
-			var cartDto = new CartDto();
 
 			if (response != null && response.IsSuccess)
 			{
