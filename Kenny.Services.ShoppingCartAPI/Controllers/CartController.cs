@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Kenny.Services.ShoppingCartAPI.Controllers
 {
     [ApiController]
-    [Route("apli/cart")]
+    [Route("api/cart")]
     public class CartController : Controller
     {
         private readonly ICartRepository _cartRepository;

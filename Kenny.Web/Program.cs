@@ -1,6 +1,7 @@
 using Kenny.Web;
 using Kenny.Web.Services;
 using Kenny.Web.Services.IServices;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -26,7 +27,8 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = "kenny";
     options.ClientSecret = "secret";
     options.ResponseType = "code";
-
+    options.ClaimActions.MapJsonKey("role", "role", "role");
+    options.ClaimActions.MapJsonKey("sub", "sub", "sub");
     options.TokenValidationParameters.NameClaimType = "name";
 	options.TokenValidationParameters.RoleClaimType = "role";
     options.Scope.Add("kenny");

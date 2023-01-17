@@ -14,7 +14,7 @@ namespace Kenny.Web.Services
             _httpClient = httpClient;
         }
 
-        public async Task<T> AddToCartByUserIdAsync<T>(CartDto cartDto, string token = null)
+        public async Task<T> AddToCartAsync<T>(CartDto cartDto, string token = null)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
@@ -46,7 +46,7 @@ namespace Kenny.Web.Services
             });
         }
 
-        public async Task<T> UdateCartByUserIdAsync<T>(CartDto cartDto, string token = null)
+        public async Task<T> UdateCartAsync<T>(CartDto cartDto, string token = null)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
