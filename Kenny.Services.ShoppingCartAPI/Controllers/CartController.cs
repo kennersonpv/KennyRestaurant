@@ -66,11 +66,11 @@ namespace Kenny.Services.ShoppingCartAPI.Controllers
         }
 
         [HttpPost("RemoveCart")]
-        public async Task<object> RemoveCart([FromBody] int cartId)
+        public async Task<object> RemoveCart([FromBody] int cartDetailsId)
         {
             try
             {
-                bool isRemoved = await _cartRepository.RemoveFromCartAsync(cartId);
+                bool isRemoved = await _cartRepository.RemoveFromCartAsync(cartDetailsId);
                 _response.Result = isRemoved;
             }
             catch (Exception ex)

@@ -24,7 +24,7 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
             var cartHeaderFromDb = await _db.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId);
             if (cartHeaderFromDb != null)
             {
-                _db.CartDetails.RemoveRange(_db.CartDetails.Where(u => u.CartHeaderId.Equals(cartHeaderFromDb.CartHeaderId)));
+                _db.CartDetails.RemoveRange(_db.CartDetails.Where(u => u.CartHeaderId == cartHeaderFromDb.CartHeaderId));
                 _db.CartHeaders.Remove(cartHeaderFromDb);
                 await _db.SaveChangesAsync();
                 return true;
@@ -47,7 +47,7 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
                 await _db.SaveChangesAsync();
             }
 
-            var cartHeaderFromDb = await _db.CartHeaders.AsNoTracking().FirstOrDefaultAsync(c => c.UserId.Equals(cart.CartHeader.UserId));
+            var cartHeaderFromDb = await _db.CartHeaders.AsNoTracking().FirstOrDefaultAsync(c => c.UserId == cart.CartHeader.UserId);
 
             if (cartHeaderFromDb == null)
             {
@@ -66,7 +66,7 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
 
                 if (cartDetailsFromDb == null)
                 {
-                    cart.CartDetails.FirstOrDefault().CartHeaderId = cartDetailsFromDb.CartHeaderId;
+                    cart.CartDetails.FirstOrDefault().CartHeaderId = cartHeaderFromDb.CartHeaderId;
                     cart.CartDetails.FirstOrDefault().Product = null;
                     _db.CartDetails.Add(cart.CartDetails.FirstOrDefault());
                     await _db.SaveChangesAsync();
@@ -90,7 +90,7 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
                 CartHeader = await _db.CartHeaders.FirstOrDefaultAsync(c => c.UserId == userId)
             };
 
-            cart.CartDetails = _db.CartDetails.Where(c => c.CartHeaderId.Equals(cart.CartHeader.CartHeaderId)).Include(c => c.Product);
+            cart.CartDetails = _db.CartDetails.Where(c => c.CartHeaderId == cart.CartHeader.CartHeaderId).Include(c => c.Product);
 
             return _mapper.Map<CartDto>(cart);
         }
@@ -101,12 +101,12 @@ namespace Kenny.Services.ShoppingCartAPI.Repository
             {
                 var cartDetails = await _db.CartDetails.FirstOrDefaultAsync(c => c.CartDetailsId == cartDetailsId);
 
-                int totalCountOfCartItems = _db.CartDetails.Where(c => c.CartHeaderId.Equals(cartDetails.CartHeaderId)).Count();
+                int totalCountOfCartItems = _db.CartDetails.Where(c => c.CartHeaderId == cartDetails.CartHeaderId).Count();
 
                 _db.CartDetails.Remove(cartDetails);
                 if (totalCountOfCartItems == 1)
                 {
-                    var cartHeaderToRemove = await _db.CartHeaders.FirstOrDefaultAsync(c => c.CartHeaderId.Equals(cartDetails.CartHeaderId));
+                    var cartHeaderToRemove = await _db.CartHeaders.FirstOrDefaultAsync(c => c.CartHeaderId == cartDetails.CartHeaderId);
                     _db.CartHeaders.Remove(cartHeaderToRemove);
                 }
                 await _db.SaveChangesAsync();
