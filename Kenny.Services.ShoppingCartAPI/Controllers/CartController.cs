@@ -80,5 +80,37 @@ namespace Kenny.Services.ShoppingCartAPI.Controllers
             }
             return _response;
         }
-    }
+
+		[HttpPost("ApplyCoupon")]
+		public async Task<object> ApplyCoupon([FromBody] CartDto cartDto)
+		{
+			try
+			{
+				bool isRemoved = await _cartRepository.ApplyCouponAsync(cartDto.CartHeader.UserId, cartDto.CartHeader.CouponCode);
+				_response.Result = isRemoved;
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.ErrorMessages = new List<string>() { ex.ToString() };
+			}
+			return _response;
+		}
+
+		[HttpPost("RemoveCoupon")]
+		public async Task<object> RemoveCoupon([FromBody] int userId)
+		{
+			try
+			{
+				bool isRemoved = await _cartRepository.RemoveCouponAsync(userId);
+				_response.Result = isRemoved;
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.ErrorMessages = new List<string>() { ex.ToString() };
+			}
+			return _response;
+		}
+	}
 }
