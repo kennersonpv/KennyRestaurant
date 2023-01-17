@@ -22,7 +22,12 @@ namespace Kenny.Web.Controllers
             return View(await LoadCartDtoBasedOnLoggedInUserAsync());
         }
 
-        public async Task<IActionResult> Remove(int cartDetailsId)
+		public async Task<IActionResult> ApplyCoupon()
+		{
+			return View(await LoadCartDtoBasedOnLoggedInUserAsync());
+		}
+
+		public async Task<IActionResult> Remove(int cartDetailsId)
         {
 			var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
 			var accessToken = await HttpContext.GetTokenAsync("access_token");

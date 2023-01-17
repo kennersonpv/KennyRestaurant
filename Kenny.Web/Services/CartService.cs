@@ -25,7 +25,18 @@ namespace Kenny.Web.Services
             });
         }
 
-        public async Task<T> GetCartByUserIdAsync<T>(string userId, string token = null)
+		public async Task<T> ApplyCouponAsync<T>(CartDto cartDto, string token = null)
+		{
+			return await this.SendAsync<T>(new ApiRequest()
+			{
+				ApiType = SD.ApiType.POST,
+				Data = cartDto,
+				Url = SD.ShoppingCartAPIBase + API_PATH + "ApplyCoupon",
+				AccessToken = token
+			});
+		}
+
+		public async Task<T> GetCartByUserIdAsync<T>(string userId, string token = null)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
@@ -35,7 +46,18 @@ namespace Kenny.Web.Services
             });
         }
 
-        public async Task<T> RemoveFromCartAsync<T>(int cartId, string token = null)
+		public async Task<T> RemoveCouponAsync<T>(string userId, string token = null)
+		{
+			return await this.SendAsync<T>(new ApiRequest()
+			{
+				ApiType = SD.ApiType.POST,
+				Data = userId,
+				Url = SD.ShoppingCartAPIBase + API_PATH + "RemoveCoupon",
+				AccessToken = token
+			});
+		}
+
+		public async Task<T> RemoveFromCartAsync<T>(int cartId, string token = null)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
