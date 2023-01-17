@@ -77,7 +77,11 @@
 							}
 						</div>
 						<div class="col-6 text-end">
-							<span class="text-danger" style="font-size:21px;">  Order Total : @string.Format("{0:c}", Model.CartHeader.OrderTotal) <br /></span>
+							<span class="text-danger" style="font-size:21px;">  Total : @string.Format("{0:c}", Model.CartHeader.OrderTotal) <br /></span>
+							@if (Model.CartHeader.DiscountTotal > 0)
+							{
+								<span class="text-success" >  Order discount : @string.Format("{0:c}", Model.CartHeader.DiscountTotal) <br /></span>
+							}
 						</div>
 					</div>
 				</div>

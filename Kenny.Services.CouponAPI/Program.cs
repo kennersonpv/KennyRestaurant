@@ -1,6 +1,8 @@
 using AutoMapper;
 using Kenny.Services.CouponAPI;
 using Kenny.Services.CouponAPI.DbContexts;
+using Kenny.Services.CouponAPI.Repository;
+using Kenny.Services.CouponAPI.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -70,6 +72,9 @@ builder.Services.AddAuthorization(options =>
 		policy.RequireClaim("scope", "kenny");
 	});
 });
+
+//Add Dependency Injection
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 
 var app = builder.Build();
 
