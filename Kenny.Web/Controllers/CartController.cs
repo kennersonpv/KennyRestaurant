@@ -67,7 +67,13 @@ namespace Kenny.Web.Controllers
             return View();
 		}
 
-        private async Task<CartDto> LoadCartDtoBasedOnLoggedInUserAsync()
+		[HttpGet]
+		public async Task<IActionResult> Checkout()
+		{
+			return View(await LoadCartDtoBasedOnLoggedInUserAsync());
+		}
+
+		private async Task<CartDto> LoadCartDtoBasedOnLoggedInUserAsync()
         {
             var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
             var accessToken = await HttpContext.GetTokenAsync("access_token");
