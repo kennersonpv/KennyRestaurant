@@ -1,5 +1,8 @@
-﻿using Kenny.Web.Services.IServices;
+﻿using Kenny.Web.Models.Dto;
+using Kenny.Web.Services.IServices;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Kenny.Web.Controllers
 {
@@ -14,9 +17,32 @@ namespace Kenny.Web.Controllers
             _cartService = cartService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> CartIndex()
         {
-            return View();
+            return View(await LoadCartDtoBasedOnLoggedInUserAsync());
+        }
+
+        private async Task<CartDto> LoadCartDtoBasedOnLoggedInUserAsync()
+        {
+            var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var response = await _cartService.GetCartByUserIdAsync<ResponseDto>(userId, accessToken);
+            var cartDto = new CartDto();
+
+            if(response != null && response.IsSuccess)
+            {
+                cartDto = JsonConvert.DeserializeObject<CartDto>(Convert.ToString(response.Result));
+            }
+
+            if(cartDto.CartHeader != null)
+            {
+                foreach(var detail in cartDto.CartDetails)
+                {
+                    cartDto.CartHeader.OrderTotal += (detail.Product.Price * detail.Count);
+                }
+            }
+
+            return cartDto;
         }
     }
 }
