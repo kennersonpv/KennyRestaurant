@@ -16,7 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-	c.SwaggerDoc("v1", new OpenApiInfo { Title = "Kenny.Services.ShoppingCartAPI", Version = "v1" });
+	c.SwaggerDoc("v1", new OpenApiInfo { Title = "Kenny.Services.ProductAPI", Version = "v1" });
 	c.EnableAnnotations();
 	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
 	{
