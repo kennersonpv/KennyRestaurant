@@ -80,6 +80,12 @@ namespace Kenny.Web.Controllers
 			{
 				var accessToken = await HttpContext.GetTokenAsync("access_token");
 				var response = await _cartService.CheckoutAsync<ResponseDto>(cartDto.CartHeader, accessToken);
+				if(response != null && !response.IsSuccess) 
+				{
+					ViewBag.Error = response.DisplayMessage;
+					return RedirectToAction(nameof(Checkout));
+				}
+
 				return RedirectToAction(nameof(Confirmation));
 			}
 			catch(Exception )
