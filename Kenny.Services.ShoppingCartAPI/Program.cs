@@ -75,10 +75,10 @@ builder.Services.AddAuthorization(options =>
 });
 
 //Add Dependency Injection
-builder.Services.AddHttpClient<ICoupunRepository, CouponRepository>( c => c.BaseAddress = 
+builder.Services.AddHttpClient<ICouponRepository, CouponRepository>( c => c.BaseAddress = 
                                                                     new Uri(builder.Configuration["ServiceUrls:CouponAPI"]));
 builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddScoped<ICoupunRepository, CouponRepository>();
+builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
 
 var app = builder.Build();

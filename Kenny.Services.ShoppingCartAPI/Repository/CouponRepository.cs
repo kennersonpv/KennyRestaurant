@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Kenny.Services.ShoppingCartAPI.Repository
 {
-	public class CouponRepository : ICoupunRepository
+	public class CouponRepository : ICouponRepository
 	{
 		private readonly HttpClient client;
 		private const string API_PATH = "/api/coupon/";
