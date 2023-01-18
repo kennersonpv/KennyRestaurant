@@ -17,8 +17,10 @@ namespace Kenny.Services.OrderAPI.Messaging
 		private readonly string checkoutMessageTopic;
 		private readonly string subscriptionCheckOut;
 		private readonly string orderPaymentProcessTopic;
+		private readonly string orderUpdatePaymentsResultTopic;		
 
 		private ServiceBusProcessor checkOutProcessor;
+		private ServiceBusProcessor orderUpdatePaymetStatusProcessor;
 
 		private readonly IConfiguration _configuration;
 		private readonly IMessageBus _messageBus;
@@ -33,9 +35,11 @@ namespace Kenny.Services.OrderAPI.Messaging
 			checkoutMessageTopic = _configuration.GetValue<string>("CheckoutMessageTopic");
 			subscriptionCheckOut = _configuration.GetValue<string>("SubscriptionCheckOut");
 			orderPaymentProcessTopic = _configuration.GetValue<string>("OrderPaymentProcessTopic");
+			orderUpdatePaymentsResultTopic = _configuration.GetValue<string>("OrderUpdatePaymentsResultTopic");
 
 			var client = new ServiceBusClient(serviceBusConnectionString);
 			checkOutProcessor = client.CreateProcessor(checkoutMessageTopic, subscriptionCheckOut);
+			orderUpdatePaymetStatusProcessor = client.CreateProcessor(orderUpdatePaymentsResultTopic, subscriptionCheckOut);
 		}
 
 		public async Task Start()
@@ -43,18 +47,35 @@ namespace Kenny.Services.OrderAPI.Messaging
 			checkOutProcessor.ProcessMessageAsync += OnCheckoutMessageReceived;
 			checkOutProcessor.ProcessErrorAsync += ErrorHandler;
 			await checkOutProcessor.StartProcessingAsync();
+
+			orderUpdatePaymetStatusProcessor.ProcessMessageAsync += OnOrderPaymentUpdateReceived;
+			orderUpdatePaymetStatusProcessor.ProcessErrorAsync += ErrorHandler;
+			await orderUpdatePaymetStatusProcessor.StartProcessingAsync();
 		}
 
 		public async Task Stop()
 		{
 			await checkOutProcessor.StopProcessingAsync();
 			await checkOutProcessor.DisposeAsync();
+
+			await orderUpdatePaymetStatusProcessor.StopProcessingAsync();
+			await orderUpdatePaymetStatusProcessor.DisposeAsync();
 		}
 
 		Task ErrorHandler(ProcessErrorEventArgs args)
 		{
 			Console.WriteLine(args.Exception.ToString());
 			return Task.CompletedTask;
+		}
+
+		private async Task OnOrderPaymentUpdateReceived(ProcessMessageEventArgs args)
+		{
+			var message = args.Message;
+			var body = Encoding.UTF8.GetString(message.Body);
+
+			var paymentResultMessage = JsonConvert.DeserializeObject<UpdatePaymentResultMessage>(body);
+			await _orderRepository.UpdateOrderPaymentStatus(paymentResultMessage.OrderId, paymentResultMessage.Status);
+			await args.CompleteMessageAsync(args.Message);
 		}
 
 		private async Task OnCheckoutMessageReceived (ProcessMessageEventArgs args)

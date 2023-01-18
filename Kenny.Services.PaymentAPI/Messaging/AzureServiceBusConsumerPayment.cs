@@ -21,11 +21,11 @@ namespace Kenny.Services.PaymentAPI.Messaging
 		private readonly IMessageBus _messageBus;
 		private readonly IProcessPayment _processPayment;
 
-
-		public AzureServiceBusConsumerPayment(IConfiguration configuration, IMessageBus messageBus)
+		public AzureServiceBusConsumerPayment(IConfiguration configuration, IMessageBus messageBus, IProcessPayment processPayment)
 		{
 			_configuration = configuration;
 			_messageBus = messageBus;
+			_processPayment = processPayment;
 
 			serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString");
 			orderPaymentProcessSubscription = _configuration.GetValue<string>("OrderPaymentProcessSubscription");
