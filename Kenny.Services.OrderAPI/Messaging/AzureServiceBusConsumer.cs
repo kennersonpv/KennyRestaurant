@@ -12,7 +12,9 @@ namespace Kenny.Services.OrderAPI.Messaging
 		private readonly OrderRepository _orderRepository;
 		private readonly string serviceBusConnectionString;
 		private readonly string checkoutMessageTopic;
-		private readonly string subscriptionName;
+		private readonly string subscriptionCheckOut;
+
+		private ServiceBusProcessor checkOutProcessor;
 
 		private readonly IConfiguration _configuration;
 
@@ -23,7 +25,11 @@ namespace Kenny.Services.OrderAPI.Messaging
 
 			serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString");
 			checkoutMessageTopic = _configuration.GetValue<string>("CheckoutMessageTopic");
-			subscriptionName = _configuration.GetValue<string>("SubscriptionName");
+			subscriptionCheckOut = _configuration.GetValue<string>("SubscriptionCheckOut");
+
+			var client = new ServiceBusClient(serviceBusConnectionString);
+			checkOutProcessor = client.CreateProcessor(checkoutMessageTopic, subscriptionCheckOut);
+
 		}
 
 		private async Task OnCheckoutMessageReceived (ProcessMessageEventArgs args)
