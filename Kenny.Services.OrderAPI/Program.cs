@@ -1,6 +1,7 @@
 using AutoMapper;
 using Kenny.Services.OrderAPI;
 using Kenny.Services.OrderAPI.DbContexts;
+using Kenny.Services.OrderAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -50,6 +51,10 @@ IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSingleton(new OrderRepository(optionBuilder.Options));
+
 // Add Authentication service
 builder.Services.AddAuthentication("Bearer")
 	.AddJwtBearer("Bearer", options =>
@@ -70,6 +75,9 @@ builder.Services.AddAuthorization(options =>
 		policy.RequireClaim("scope", "kenny");
 	});
 });
+
+//Add Dependency Injection
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 
