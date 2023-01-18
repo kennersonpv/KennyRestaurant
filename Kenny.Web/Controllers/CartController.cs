@@ -73,7 +73,7 @@ namespace Kenny.Web.Controllers
 			return View(await LoadCartDtoBasedOnLoggedInUserAsync());
 		}
 
-		[HttpPost("Checkout")]
+		[HttpPost]
 		public async Task<IActionResult> Checkout(CartDto cartDto)
 		{
 			try
