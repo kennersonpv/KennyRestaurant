@@ -1,4 +1,5 @@
 using AutoMapper;
+using Kenny.MessageBus;
 using Kenny.Services.OrderAPI;
 using Kenny.Services.OrderAPI.DbContexts;
 using Kenny.Services.OrderAPI.Extensions;
@@ -57,6 +58,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddSingleton(new OrderRepository(optionBuilder.Options));
+builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
 
 // Add Authentication service
 builder.Services.AddAuthentication("Bearer")
