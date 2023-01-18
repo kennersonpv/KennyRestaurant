@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Kenny.Services.OrderAPI.Messaging
 {
-    public class AzureServiceBusConsumer : IAzureServiceBusConsumer
+    public class AzureServiceBusConsumerOrder : IAzureServiceBusConsumerOrder
 	{
 		private readonly OrderRepository _orderRepository;
 		private readonly string serviceBusConnectionString;
@@ -23,7 +23,7 @@ namespace Kenny.Services.OrderAPI.Messaging
 		private readonly IConfiguration _configuration;
 		private readonly IMessageBus _messageBus;
 
-		public AzureServiceBusConsumer(OrderRepository orderRepository, IConfiguration configuration, IMessageBus messageBus)
+		public AzureServiceBusConsumerOrder(OrderRepository orderRepository, IConfiguration configuration, IMessageBus messageBus)
 		{
 			_orderRepository = orderRepository;
 			_configuration = configuration;

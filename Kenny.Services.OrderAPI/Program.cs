@@ -83,7 +83,7 @@ builder.Services.AddAuthorization(options =>
 
 //Add Dependency Injection
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
+builder.Services.AddSingleton<IAzureServiceBusConsumerOrder, AzureServiceBusConsumerOrder>();
 
 var app = builder.Build();
 

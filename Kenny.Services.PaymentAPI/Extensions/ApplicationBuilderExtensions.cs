@@ -1,13 +1,13 @@
-﻿using Kenny.Services.OrderAPI.Messaging.Interfaces;
+﻿using Kenny.Services.PaymentAPI.Messaging.Interfaces;
 
-namespace Kenny.Services.OrderAPI.Extensions
+namespace Kenny.Services.PaymentAPI.Extensions
 {
 	public static class ApplicationBuilderExtensions
 	{
-		public static IAzureServiceBusConsumerOrder ServiceBusConsumer { get; set; }
+		public static IAzureServiceBusConsumerPayment ServiceBusConsumer { get; set; }
 		public static IApplicationBuilder UseAzureServiceBusConsumer(this IApplicationBuilder app)
 		{
-			ServiceBusConsumer = app.ApplicationServices.GetService<IAzureServiceBusConsumerOrder>();
+			ServiceBusConsumer = app.ApplicationServices.GetService<IAzureServiceBusConsumerPayment>();
 			var hostApplicatinLife = app.ApplicationServices.GetService<IHostApplicationLifetime>();
 
 			hostApplicatinLife.ApplicationStarted.Register(OnStart);

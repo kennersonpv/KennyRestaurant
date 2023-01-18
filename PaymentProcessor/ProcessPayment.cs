@@ -6,7 +6,8 @@ namespace PaymentProcessor
 	{
 		public bool PaymentProcessor()
 		{
-			throw new NotImplementedException();
+			//business rule not implemented
+			return true;
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿namespace Kenny.Services.OrderAPI.Messaging.Interfaces
 {
-    public interface IAzureServiceBusConsumer
+    public interface IAzureServiceBusConsumerOrder
     {
         Task Start();
         Task Stop();
