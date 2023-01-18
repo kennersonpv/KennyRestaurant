@@ -19,9 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kenny.Services.CouponAPI", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{3D8CFE50-D6C9-454B-B476-C95813C43D45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kenny.MessageBus", "Kenny.MessageBus\Kenny.MessageBus.csproj", "{4AEF67E0-2B57-4D6F-96EC-07F73903648D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kenny.MessageBus", "Kenny.MessageBus\Kenny.MessageBus.csproj", "{4AEF67E0-2B57-4D6F-96EC-07F73903648D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kenny.Services.OrderAPI", "Kenny.Services.OrderAPI\Kenny.Services.OrderAPI.csproj", "{ACD73BC7-8AFE-40FC-9777-BBECC8E009DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{FA1E36FE-78F1-42A5-8C79-AFC473E7649A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentProcessor", "PaymentProcessor\PaymentProcessor.csproj", "{58CCEEDA-C805-4EA4-B771-95B9634BA654}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{ACD73BC7-8AFE-40FC-9777-BBECC8E009DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACD73BC7-8AFE-40FC-9777-BBECC8E009DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACD73BC7-8AFE-40FC-9777-BBECC8E009DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58CCEEDA-C805-4EA4-B771-95B9634BA654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58CCEEDA-C805-4EA4-B771-95B9634BA654}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58CCEEDA-C805-4EA4-B771-95B9634BA654}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58CCEEDA-C805-4EA4-B771-95B9634BA654}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +77,7 @@ Global
 		{8B79B6CC-962B-44EC-8DE5-36BF92361B70} = {F4EA9203-4EEA-4823-A14D-3F7A5D5283EF}
 		{4AEF67E0-2B57-4D6F-96EC-07F73903648D} = {3D8CFE50-D6C9-454B-B476-C95813C43D45}
 		{ACD73BC7-8AFE-40FC-9777-BBECC8E009DF} = {F4EA9203-4EEA-4823-A14D-3F7A5D5283EF}
+		{58CCEEDA-C805-4EA4-B771-95B9634BA654} = {FA1E36FE-78F1-42A5-8C79-AFC473E7649A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4A5612D1-1119-41B9-813D-3165D2FF5897}

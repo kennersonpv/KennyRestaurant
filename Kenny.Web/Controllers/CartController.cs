@@ -93,7 +93,6 @@ namespace Kenny.Web.Controllers
 				return View(cartDto);
 			}
 		}
-
 		
 		public async Task<IActionResult> Confirmation()
 		{
