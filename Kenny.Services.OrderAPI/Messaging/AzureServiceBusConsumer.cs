@@ -10,9 +10,20 @@ namespace Kenny.Services.OrderAPI.Messaging
 	public class AzureServiceBusConsumer
 	{
 		private readonly OrderRepository _orderRepository;
-		public AzureServiceBusConsumer(OrderRepository orderRepository)
+		private readonly string serviceBusConnectionString;
+		private readonly string checkoutMessageTopic;
+		private readonly string subscriptionName;
+
+		private readonly IConfiguration _configuration;
+
+		public AzureServiceBusConsumer(OrderRepository orderRepository, IConfiguration configuration)
 		{
 			_orderRepository = orderRepository;
+			_configuration = configuration;
+
+			serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString");
+			checkoutMessageTopic = _configuration.GetValue<string>("CheckoutMessageTopic");
+			subscriptionName = _configuration.GetValue<string>("SubscriptionName");
 		}
 
 		private async Task OnCheckoutMessageReceived (ProcessMessageEventArgs args)
