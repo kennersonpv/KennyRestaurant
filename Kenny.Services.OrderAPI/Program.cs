@@ -2,6 +2,7 @@ using AutoMapper;
 using Kenny.Services.OrderAPI;
 using Kenny.Services.OrderAPI.DbContexts;
 using Kenny.Services.OrderAPI.Extensions;
+using Kenny.Services.OrderAPI.Messaging;
 using Kenny.Services.OrderAPI.Messaging.Interfaces;
 using Kenny.Services.OrderAPI.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -80,7 +81,7 @@ builder.Services.AddAuthorization(options =>
 
 //Add Dependency Injection
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddSingleton<IAzureServiceBusConsumer, IAzureServiceBusConsumer>();
+builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
 
 var app = builder.Build();
 
