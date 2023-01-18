@@ -82,7 +82,7 @@ namespace Kenny.Web.Controllers
 				var response = await _cartService.CheckoutAsync<ResponseDto>(cartDto.CartHeader, accessToken);
 				if(response != null && !response.IsSuccess) 
 				{
-					ViewBag.Error = response.DisplayMessage;
+					TempData["Error"] = response.DisplayMessage;
 					return RedirectToAction(nameof(Checkout));
 				}
 
