@@ -16,6 +16,7 @@ namespace Kenny.Services.OrderAPI.Messaging
 		private readonly string serviceBusConnectionString;
 		private readonly string checkoutMessageTopic;
 		private readonly string subscriptionCheckOut;
+		private readonly string orderPaymentProcessTopic;
 
 		private ServiceBusProcessor checkOutProcessor;
 
@@ -31,6 +32,7 @@ namespace Kenny.Services.OrderAPI.Messaging
 			serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString");
 			checkoutMessageTopic = _configuration.GetValue<string>("CheckoutMessageTopic");
 			subscriptionCheckOut = _configuration.GetValue<string>("SubscriptionCheckOut");
+			orderPaymentProcessTopic = _configuration.GetValue<string>("OrderPaymentProcessTopic");
 
 			var client = new ServiceBusClient(serviceBusConnectionString);
 			checkOutProcessor = client.CreateProcessor(checkoutMessageTopic, subscriptionCheckOut);
@@ -106,6 +108,16 @@ namespace Kenny.Services.OrderAPI.Messaging
 				OrderTotal = orderHeader.OrderTotal,
 				Email = orderHeader.Email
 			};
+
+			try
+			{
+				await _messageBus.PublicMessage(paymentRequestMessage, orderPaymentProcessTopic);
+				await args.CompleteMessageAsync(args.Message);
+			}
+			catch
+			{
+				throw;
+			}
 		}
 	}
 }
