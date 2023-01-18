@@ -31,6 +31,23 @@ namespace Kenny.Services.OrderAPI.Messaging
 			checkOutProcessor = client.CreateProcessor(checkoutMessageTopic, subscriptionCheckOut);
 
 		}
+		public async Task Start()
+		{
+			checkOutProcessor.ProcessMessageAsync += OnCheckoutMessageReceived;
+			checkOutProcessor.ProcessErrorAsync += ErrorHandler;
+			await checkOutProcessor.StartProcessingAsync();
+		}
+		public async Task Stop()
+		{
+			await checkOutProcessor.StopProcessingAsync();
+			await checkOutProcessor.DisposeAsync();
+		}
+
+		Task ErrorHandler(ProcessErrorEventArgs args)
+		{
+			Console.WriteLine(args.Exception.ToString());
+			return Task.CompletedTask;
+		}
 
 		private async Task OnCheckoutMessageReceived (ProcessMessageEventArgs args)
 		{
