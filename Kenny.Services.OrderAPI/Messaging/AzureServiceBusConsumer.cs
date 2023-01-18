@@ -1,5 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Kenny.Services.OrderAPI.Messages;
+using Kenny.Services.OrderAPI.Messages.Dto;
 using Kenny.Services.OrderAPI.Messaging.Interfaces;
 using Kenny.Services.OrderAPI.Models;
 using Kenny.Services.OrderAPI.Repository;
@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Kenny.Services.OrderAPI.Messaging
 {
-	public class AzureServiceBusConsumer : IAzureServiceBusConsumer
+    public class AzureServiceBusConsumer : IAzureServiceBusConsumer
 	{
 		private readonly OrderRepository _orderRepository;
 		private readonly string serviceBusConnectionString;

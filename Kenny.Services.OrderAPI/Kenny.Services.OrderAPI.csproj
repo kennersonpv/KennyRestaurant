@@ -31,4 +31,8 @@
     <Folder Include="Models\Dto\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Kenny.MessageBus\Kenny.MessageBus.csproj" />
+  </ItemGroup>
+
 </Project>
