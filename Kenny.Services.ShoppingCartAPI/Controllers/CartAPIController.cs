@@ -1,4 +1,5 @@
-﻿using Kenny.Services.ShoppingCartAPI.Messages;
+﻿using Kenny.MessageBus;
+using Kenny.Services.ShoppingCartAPI.Messages;
 using Kenny.Services.ShoppingCartAPI.Models.Dto;
 using Kenny.Services.ShoppingCartAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,13 @@ namespace Kenny.Services.ShoppingCartAPI.Controllers
     public class CartAPIController : Controller
     {
         private readonly ICartRepository _cartRepository;
-        protected ResponseDto _response;
+        private readonly IMessageBus _messageBus;
+		protected ResponseDto _response;
 
-        public CartAPIController(ICartRepository cartRepository)
+        public CartAPIController(ICartRepository cartRepository, IMessageBus messageBus)
         {
             _cartRepository = cartRepository;
+            _messageBus = messageBus;
             this._response = new ResponseDto();
         }
 
@@ -125,6 +128,7 @@ namespace Kenny.Services.ShoppingCartAPI.Controllers
                     return BadRequest();
                 }
                 checkoutHeader.CartDetails = cartDto.CartDetails;
+                await _messageBus.PublicMessage(checkoutHeader, "checkoutmessagetopic");
 
 			}
 			catch (Exception ex)

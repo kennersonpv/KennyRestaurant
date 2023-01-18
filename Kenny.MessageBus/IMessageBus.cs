@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kenny.MessageBus
 {
-	internal interface IMessageBus
+	public interface IMessageBus
 	{
 		Task PublicMessage(BaseMessage message, string topicName);
 	}

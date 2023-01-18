@@ -1,8 +1,9 @@
-﻿using Kenny.Services.ShoppingCartAPI.Models.Dto;
+﻿using Kenny.MessageBus;
+using Kenny.Services.ShoppingCartAPI.Models.Dto;
 
 namespace Kenny.Services.ShoppingCartAPI.Messages
 {
-	public class CheckoutHeaderDto
+	public class CheckoutHeaderDto : BaseMessage
 	{
 		public int CartHeaderId { get; set; }
 		public string UserId { get; set; }

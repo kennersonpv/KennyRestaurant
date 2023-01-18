@@ -1,4 +1,5 @@
 using AutoMapper;
+using Kenny.MessageBus;
 using Kenny.Services.ShoppingCartAPI;
 using Kenny.Services.ShoppingCartAPI.DbContexts;
 using Kenny.Services.ShoppingCartAPI.Repository;
@@ -75,6 +76,7 @@ builder.Services.AddAuthorization(options =>
 
 //Add Dependency Injection
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
 
 var app = builder.Build();
 
