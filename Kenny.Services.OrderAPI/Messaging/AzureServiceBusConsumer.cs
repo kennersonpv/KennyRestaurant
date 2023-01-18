@@ -30,14 +30,15 @@ namespace Kenny.Services.OrderAPI.Messaging
 
 			var client = new ServiceBusClient(serviceBusConnectionString);
 			checkOutProcessor = client.CreateProcessor(checkoutMessageTopic, subscriptionCheckOut);
-
 		}
+
 		public async Task Start()
 		{
 			checkOutProcessor.ProcessMessageAsync += OnCheckoutMessageReceived;
 			checkOutProcessor.ProcessErrorAsync += ErrorHandler;
 			await checkOutProcessor.StartProcessingAsync();
 		}
+
 		public async Task Stop()
 		{
 			await checkOutProcessor.StopProcessingAsync();
