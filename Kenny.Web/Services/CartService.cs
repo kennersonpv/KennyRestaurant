@@ -36,6 +36,17 @@ namespace Kenny.Web.Services
 			});
 		}
 
+		public async Task<T> CheckoutAsync<T>(CartHeaderDto cartHeaderDto, string token = null)
+		{
+			return await this.SendAsync<T>(new ApiRequest()
+			{
+				ApiType = SD.ApiType.POST,
+				Data = cartHeaderDto,
+				Url = SD.ShoppingCartAPIBase + API_PATH + "Checkout",
+				AccessToken = token
+			});
+		}
+
 		public async Task<T> GetCartByUserIdAsync<T>(string userId, string token = null)
         {
             return await this.SendAsync<T>(new ApiRequest()

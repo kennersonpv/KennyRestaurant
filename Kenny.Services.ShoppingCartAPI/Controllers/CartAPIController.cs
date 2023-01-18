@@ -1,4 +1,5 @@
-﻿using Kenny.Services.ShoppingCartAPI.Models.Dto;
+﻿using Kenny.Services.ShoppingCartAPI.Messages;
+using Kenny.Services.ShoppingCartAPI.Models.Dto;
 using Kenny.Services.ShoppingCartAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -104,6 +105,27 @@ namespace Kenny.Services.ShoppingCartAPI.Controllers
 			{
 				bool isRemoved = await _cartRepository.RemoveCouponAsync(userId);
 				_response.Result = isRemoved;
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.ErrorMessages = new List<string>() { ex.ToString() };
+			}
+			return _response;
+		}
+
+		[HttpPost("Checkout")]
+		public async Task<object> Checkout(CheckoutHeaderDto checkoutHeader)
+		{
+			try
+			{
+                var cartDto = await _cartRepository.GetCartByUserIdAsync(checkoutHeader.UserId);
+                if(cartDto == null)
+                {
+                    return BadRequest();
+                }
+                checkoutHeader.CartDetails = cartDto.CartDetails;
+
 			}
 			catch (Exception ex)
 			{
