@@ -144,6 +144,7 @@ namespace Kenny.Services.ShoppingCartAPI.Controllers
 
                 checkoutHeader.CartDetails = cartDto.CartDetails;
                 await _messageBus.PublicMessage(checkoutHeader, "checkoutmessagetopic");
+                await _cartRepository.ClearCartAsync(checkoutHeader.UserId);
 
 			}
 			catch (Exception ex)
