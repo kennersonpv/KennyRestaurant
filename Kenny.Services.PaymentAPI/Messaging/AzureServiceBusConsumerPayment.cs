@@ -67,7 +67,8 @@ namespace Kenny.Services.PaymentAPI.Messaging
 			var updatePaymentResultMessage = new UpdatePaymentResultMessage()
 			{
 				OrderId = paymentRequestMessage.OrderId,
-				Status = result
+				Status = result,
+				Email = paymentRequestMessage.Email
 			};
 
 			try
