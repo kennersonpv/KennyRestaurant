@@ -38,7 +38,11 @@ namespace Kenny.Services.OrderAPI.Messaging
 			orderUpdatePaymentsResultTopic = _configuration.GetValue<string>("OrderUpdatePaymentsResultTopic");
 
 			var client = new ServiceBusClient(serviceBusConnectionString);
-			checkOutProcessor = client.CreateProcessor(checkoutMessageTopic, subscriptionCheckOut);
+			//Solution for Topics
+			//checkOutProcessor = client.CreateProcessor(checkoutMessageTopic, subscriptionCheckOut);
+
+			//Solution for queues
+			checkOutProcessor = client.CreateProcessor(checkoutMessageTopic);
 			orderUpdatePaymetStatusProcessor = client.CreateProcessor(orderUpdatePaymentsResultTopic, subscriptionCheckOut);
 		}
 
