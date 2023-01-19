@@ -1,10 +1,11 @@
 ﻿using Kenny.Services.OrderAPI.DbContexts;
 using Kenny.Services.OrderAPI.Models;
+using Kenny.Services.OrderAPI.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kenny.Services.OrderAPI.Repository
 {
-	public class OrderRepository : IOrderRepository
+    public class OrderRepository : IOrderRepository
 	{
 		private readonly DbContextOptions<ApplicationDbContext> _dbContext;
 		public OrderRepository(DbContextOptions<ApplicationDbContext> dbContext)

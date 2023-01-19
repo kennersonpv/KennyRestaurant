@@ -6,6 +6,7 @@ using Kenny.Services.OrderAPI.Extensions;
 using Kenny.Services.OrderAPI.Messaging;
 using Kenny.Services.OrderAPI.Messaging.Interfaces;
 using Kenny.Services.OrderAPI.Repository;
+using Kenny.Services.OrderAPI.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
